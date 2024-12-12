@@ -1,0 +1,295 @@
+{
+	"info": {
+		"_postman_id": "1586655f-4003-41d3-aea2-33adfc08eca8",
+		"name": "market",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36273351"
+	},
+	"item": [
+		{
+			"name": "categories",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"leptops\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/app/categories-api/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"app",
+								"categories-api",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/app/categories-api/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"app",
+								"categories-api",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/app/products-api/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"app",
+								"products-api",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Galaxy S\",\n    \"price\": 1000,\n    \"catid\": 2, \n    \"stock\": 4, \n    \"brand\": \"Samsung\"  \n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/app/products-api/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"app",
+								"products-api",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Productparams",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/app/productparams-api",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"app",
+								"productparams-api"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"camera\",\n    \"value\": \"30px\",\n    \"productid_id\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/app/productparams-api",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"app",
+								"productparams-api"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categoryparams",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/app/categoryparams-api",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"app",
+								"categoryparams-api"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"catid\": 1,\n    \"key\": \"camera\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/app/categoryparams-api",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"app",
+								"categoryparams-api"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Brands",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/app/brands-api/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"app",
+								"brands-api",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"brand\": \"apple\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/app/brands-api/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"app",
+								"brands-api",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "{{baseurl}}",
+			"value": "http://127.0.0.1:8000/app",
+			"type": "string"
+		}
+	]
+}
