@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import ProductListView, ProductCreateView, ProductAPI, CategoryListView, CategoryDetailView, CategoryApi, BrandsDetailView, BrandsListView, BrandApi, CategoryparamsListView, CategoryparamsApi, CategoryparamsDetailView, ProductparamsListView, ProductparamsDetailView, ProductparamsApi
-# from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
+from .views import ProductListView, ProductCreateView, ProductAPI, CategoryListView, CategoryDetailView, CategoryApi, BrandsDetailView, BrandsListView, BrandApi, CategoryparamsListView, CategoryparamsApi, CategoryparamsDetailView, ProductparamsListView, ProductparamsDetailView, ProductparamsApi, RegisterView, LoginView, SkuListView, SkuApi, SkuDetailView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from .views import ProductViewSet, BrandsViewSet, CategoryViewSet
+from rest_framework.routers import DefaultRouter
 urlpatterns = [
     # Product URLs
     path('products/', ProductListView.as_view(), name='product-list-view'),
@@ -18,8 +19,6 @@ urlpatterns = [
     path('brands/<int:pk>/', BrandsDetailView.as_view(), name='brand-detail'),
     path('brands-api/', BrandApi.as_view(), name='brand-api'),
     
-
-
     # Catparams URLs
     path('categoryparams/', CategoryparamsListView.as_view(), name='categoryparams-list'),
     path('categoryparams/<int:pk>/', CategoryparamsDetailView.as_view(), name='categoryparams-detail'),
@@ -29,13 +28,30 @@ urlpatterns = [
     path('productparams/', ProductparamsListView.as_view(), name='productparams-list'),
     path('productparams/<int:pk>/', ProductparamsDetailView.as_view(), name='productparams-detail'),
     path('productparams-api/', ProductparamsApi.as_view(), name='productparams-api'),
-
-
+    
+    # SKU URLs
+    path('skus/', SkuListView.as_view(), name='sku-list'),
+    path('skus/<int:pk>/', SkuDetailView.as_view(), name='sku-detail'),
+    path('skus-api/', SkuApi.as_view(), name='sku-api'),
+    
     # Token URLs
-    # path('app/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    # path('app/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-]
+    path('app/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('app/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
+    # Authentication endpoints
+    path('registrations/', RegisterView.as_view(), name='registrations'),
+    path('login/', LoginView.as_view(), name='login'),
+
+
+
+]
+# viewset
+router = DefaultRouter()
+router.register(r'products', ProductViewSet)
+router.register(r'brands', BrandsViewSet)
+router.register(r'categories', CategoryViewSet)
+
+urlpatterns += router.urls
 
 # http://127.0.0.1:8000/products-list/
 

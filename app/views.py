@@ -1,14 +1,17 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import ProductFilter, CategoryFilter, BrandsFilter, CategoryparamsFilter, ProductparamsFilter
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.views import APIView
-from .models import Product, Category, Brands, Categoryparams, Productparams
-from .serializers import ProductSerializer, CategorySerializer, BrandsSerializer, CategoryparamsSerializer, ProductparamsSerializer
+from .models import Product, Category, Brands, Categoryparams, Productparams, Sku
+from .serializers import ProductSerializer, CategorySerializer, BrandsSerializer, CategoryparamsSerializer, ProductparamsSerializer, RegisterSerializer, SkuSerializer
 from rest_framework import generics
-
+from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import AllowAny
 
 # Product Views
 class ProductCreateView(CreateAPIView):
@@ -170,3 +173,84 @@ class ProductparamsApi(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+# Sku Views
+
+class SkuCreateView(CreateAPIView):
+    queryset = Sku.objects.all()
+    serializer_class = SkuSerializer
+
+
+class SkuListView(generics.ListAPIView):
+    queryset = Sku.objects.all()
+    serializer_class = SkuSerializer
+
+
+class SkuDetailView(generics.RetrieveAPIView):
+    queryset = Sku.objects.all()
+    serializer_class = SkuSerializer
+
+
+class SkuApi(APIView):
+    def get(self, request):
+        skus = Sku.objects.all()
+        serializer = SkuSerializer(skus, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = SkuSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+#viewset
+class ProductViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class BrandsViewSet(viewsets.ModelViewSet):
+    queryset = Brands.objects.all()
+    serializer_class = BrandsSerializer
+
+# რეგისტრაცია
+class RegisterView(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "User created successfully!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# ლოგინი
+class LoginView(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        print(f"Attempting login for: {username}") 
+
+        user = authenticate(username=username, password=password)
+        if user:
+            print(f"Login successful for: {username}")
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            },status=status.HTTP_200_OK)
+        
+        print("Invalid credentials")
+
+        return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)

@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Product, Category, Brands, Categoryparams, Productparams
+from .models import Product, Category, Brands, Categoryparams, Productparams, Sku
+from django.contrib.auth.models import User
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,3 +33,25 @@ class ProductparamsSerializer(serializers.ModelSerializer):
         model = Productparams
         fields = '__all__'
 
+class SkuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sku
+        fields = ['id', 'productid']
+
+# რეგისტრაცია
+
+class RegisterSerializer(serializers.ModelSerializer):
+    password2 = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'password2', 'email']
+
+    def validate(self, data):
+        if data['password'] != data['password2']:
+            raise serializers.ValidationError("Passwords must match.")
+        return data
+
+    def create(self, validated_data):
+        user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
+        return user
