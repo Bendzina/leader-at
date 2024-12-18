@@ -25,3 +25,10 @@ class CartSerializer(serializers.ModelSerializer):
 
     def get_total_amount(self, obj):
         return sum(item.sku.productid.price * item.quantity for item in obj.cartitem_set.all())
+
+
+# ///////////ახალი დამატებული
+class ProductFilterSerializer(serializers.Serializer):
+    min_price = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    max_price = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    category = serializers.CharField(max_length=255, required=False)

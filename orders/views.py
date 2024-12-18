@@ -13,7 +13,7 @@ class CartView(APIView):
     def get(self, request):
         cart, created = Cart.objects.get_or_create(user=request.user)
         cart_items = CartItem.objects.filter(cart=cart)
-        serializer = CartSerializer(cart)
+        serializer = CartSerializer(cart, context={'request': request})
         return Response(serializer.data)
 
 class AddCartItemView(APIView):

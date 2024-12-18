@@ -12,6 +12,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny
+from django.db.models import Q
+from rest_framework.pagination import PageNumberPagination
 
 # Product Views
 class ProductCreateView(CreateAPIView):
@@ -26,12 +28,16 @@ class ProductListView(generics.ListAPIView):
     filterset_class = ProductFilter
 
 
+
 class ProductAPI(APIView):
     def get(self, request):
         products = Product.objects.all()
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
-    
+        filtered_products = ProductFilter(request.GET, queryset=products)
+        if filtered_products.is_valid():
+            serializer = ProductSerializer(filtered_products.qs, many=True)
+            return Response(serializer.data)
+        return Response(filtered_products.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def post(self, request):
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
@@ -159,6 +165,8 @@ class ProductparamsListView(generics.ListAPIView):
 class ProductparamsDetailView(generics.RetrieveAPIView):
     queryset = Productparams.objects.all()
     serializer_class = ProductparamsSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ProductparamsFilter
 
 
 class ProductparamsApi(APIView):
@@ -254,3 +262,40 @@ class LoginView(APIView):
         print("Invalid credentials")
 
         return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+    
+
+
+
+def search_products(filter_params):
+    query = Q()
+    for key, value in filter_params.items():
+        if value:
+            if key == "param_key":  
+                query &= Q(productparams__key=value)
+            elif key == "param_value":  
+                query &= Q(productparams__value=value)
+            elif key == "sku":  
+                query &= Q(sku__id=value)
+            else:
+                query &= Q(**{f"{key}__icontains": value})
+    
+    products = Product.objects.filter(query).distinct()
+    return products
+
+
+class ProductSearchApi(APIView):
+    def get(self, request):
+        filter_params = request.query_params.dict()
+        products = search_products(filter_params)
+        paginator = PageNumberPagination()
+        paginator.page_size = 10  
+        result_page = paginator.paginate_queryset(products, request)
+        
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    
+
+    
+
+

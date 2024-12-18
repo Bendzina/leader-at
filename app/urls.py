@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import ProductListView, ProductCreateView, ProductAPI, CategoryListView, CategoryDetailView, CategoryApi, BrandsDetailView, BrandsListView, BrandApi, CategoryparamsListView, CategoryparamsApi, CategoryparamsDetailView, ProductparamsListView, ProductparamsDetailView, ProductparamsApi, RegisterView, LoginView, SkuListView, SkuApi, SkuDetailView
+from .views import ProductListView, ProductCreateView, ProductAPI, CategoryListView, CategoryDetailView, CategoryApi, BrandsDetailView, BrandsListView, BrandApi, CategoryparamsListView, CategoryparamsApi, CategoryparamsDetailView, ProductparamsListView, ProductparamsDetailView, ProductparamsApi, RegisterView, LoginView, SkuListView, SkuApi, SkuDetailView, ProductSearchApi
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .views import ProductViewSet, BrandsViewSet, CategoryViewSet
 from rest_framework.routers import DefaultRouter
+from .views import search_products
 urlpatterns = [
     # Product URLs
     path('products/', ProductListView.as_view(), name='product-list-view'),
@@ -41,6 +42,10 @@ urlpatterns = [
     # Authentication endpoints
     path('registrations/', RegisterView.as_view(), name='registrations'),
     path('login/', LoginView.as_view(), name='login'),
+
+    # Search API
+    path('products/search/', ProductSearchApi.as_view(), name='product-search'),
+
 
 
 
