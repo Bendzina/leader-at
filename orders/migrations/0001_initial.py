@@ -9,10 +9,7 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        ('app', '0003_alter_product_catid_sku_productparams_skuid'),
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-    ]
+
 
     operations = [
         migrations.CreateModel(

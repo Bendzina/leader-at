@@ -14,14 +14,17 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny
 from django.db.models import Q
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAdminUser
 
 # Product Views
 class ProductCreateView(CreateAPIView):
+    permission_classes = [IsAdminUser]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
 
 class ProductListView(generics.ListAPIView):
+    permission_classes =[IsAuthenticated]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend]
@@ -30,6 +33,7 @@ class ProductListView(generics.ListAPIView):
 
 
 class ProductAPI(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         products = Product.objects.all()
         filtered_products = ProductFilter(request.GET, queryset=products)
@@ -39,6 +43,8 @@ class ProductAPI(APIView):
         return Response(filtered_products.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request):
+        if not request.user.is_superuser:
+            return Response({'error': 'Only superusers can create products'}, status=status.HTTP_403_FORBIDDEN)
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -48,10 +54,12 @@ class ProductAPI(APIView):
 
 # Category Views
 class CategoryCreateView(CreateAPIView):
+    permission_classes = [IsAdminUser]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 class CategoryListView(generics.ListAPIView):
+    permission_classes = [AllowAny]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     filter_backends = [DjangoFilterBackend]
@@ -59,17 +67,21 @@ class CategoryListView(generics.ListAPIView):
 
 
 class CategoryDetailView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 
 class CategoryApi(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         categories = Category.objects.all()
         serializer = CategorySerializer(categories, many=True)
         return Response(serializer.data)
     
     def post(self, request):
+        if not request.user.is_superuser:
+            return Response({'error': 'Only superusers can create category'}, status=status.HTTP_403_FORBIDDEN)
         serializer = CategorySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -80,11 +92,13 @@ class CategoryApi(APIView):
 # Brand Views
 
 class BrandsCreateView(CreateAPIView):
+    permission_classes = [IsAdminUser]
     queryset = Brands.objects.all()
     serializer_class = BrandsSerializer
 
 
 class BrandsListView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Brands.objects.all()
     serializer_class = BrandsSerializer
     filter_backends = [DjangoFilterBackend]
@@ -92,17 +106,21 @@ class BrandsListView(generics.ListAPIView):
 
 
 class BrandsDetailView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Brands.objects.all()
     serializer_class = BrandsSerializer
 
 
 class BrandApi(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         brands = Brands.objects.all()
         serializer = BrandsSerializer(brands, many=True)
         return Response(serializer.data)
     
     def post(self, request):
+        if not request.user.is_superuser:
+            return Response({'error': 'Only superusers can create brand'}, status=status.HTTP_403_FORBIDDEN)
         serializer = BrandsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -115,12 +133,14 @@ class BrandApi(APIView):
 
 
 class CategoryparamsCreateView(CreateAPIView):
+    permission_classes = [IsAdminUser]
     queryset = Categoryparams.objects.all()
     serializer_class = CategoryparamsSerializer
 
 
 
 class CategoryparamsListView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Categoryparams.objects.all()
     serializer_class = CategoryparamsSerializer
     filter_backends = [DjangoFilterBackend]
@@ -129,17 +149,21 @@ class CategoryparamsListView(generics.ListAPIView):
 
 
 class CategoryparamsDetailView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Categoryparams.objects.all()
     serializer_class = CategoryparamsSerializer
 
 
 class CategoryparamsApi(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         Categoryparams = Categoryparams.objects.all()
         serializer = CategoryparamsSerializer(Categoryparams, many=True)
         return Response(serializer.data)
     
     def post(self, request):
+        if not request.user.is_superuser:
+            return Response({'error': 'Only superusers can create categoryparams'}, status=status.HTTP_403_FORBIDDEN)
         serializer = CategoryparamsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -152,17 +176,20 @@ class CategoryparamsApi(APIView):
 # Productparams Views
 
 class ProductparamsCreateView(CreateAPIView):
+    permission_classes = [IsAdminUser]
     queryset = Productparams.objects.all()
     serializer_class = ProductparamsSerializer
 
 
 class ProductparamsListView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Productparams.objects.all()
     serializer_class = ProductparamsSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = ProductparamsFilter
 
 class ProductparamsDetailView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Productparams.objects.all()
     serializer_class = ProductparamsSerializer
     filter_backends = [DjangoFilterBackend]
@@ -170,12 +197,16 @@ class ProductparamsDetailView(generics.RetrieveAPIView):
 
 
 class ProductparamsApi(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
+        permission_classes = [IsAuthenticated]
         productparams = Productparams.objects.all()
         serializer = ProductparamsSerializer(productparams, many=True)
         return Response(serializer.data)
     
     def post(self, request):
+        if not request.user.is_superuser:
+            return Response({'error': 'Only superusers can create productparams'}, status=status.HTTP_403_FORBIDDEN)
         serializer = ProductparamsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -187,27 +218,33 @@ class ProductparamsApi(APIView):
 # Sku Views
 
 class SkuCreateView(CreateAPIView):
+    permission_classes = [IsAdminUser]
     queryset = Sku.objects.all()
     serializer_class = SkuSerializer
 
 
 class SkuListView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Sku.objects.all()
     serializer_class = SkuSerializer
 
 
 class SkuDetailView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Sku.objects.all()
     serializer_class = SkuSerializer
 
 
 class SkuApi(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         skus = Sku.objects.all()
         serializer = SkuSerializer(skus, many=True)
         return Response(serializer.data)
     
     def post(self, request):
+        if not request.user.is_superuser:
+            return Response({'error': 'Only superusers can create sku'}, status=status.HTTP_403_FORBIDDEN)
         serializer = SkuSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -223,11 +260,13 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 
 class BrandsViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Brands.objects.all()
     serializer_class = BrandsSerializer
 
@@ -264,9 +303,30 @@ class LoginView(APIView):
         return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
     
 
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh"]
+            if not refresh_token:
+                return Response({"error": "'refresh' key is required in the request body"}, status=status.HTTP_400_BAD_REQUEST)
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response({"detail": "Token blacklisted successfully"}, status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+        
+    
+
 
 
 def search_products(filter_params):
+
     query = Q()
     for key, value in filter_params.items():
         if value:
@@ -284,6 +344,7 @@ def search_products(filter_params):
 
 
 class ProductSearchApi(APIView):
+    permission_classes = [AllowAny]
     def get(self, request):
         filter_params = request.query_params.dict()
         products = search_products(filter_params)
@@ -291,8 +352,8 @@ class ProductSearchApi(APIView):
         paginator.page_size = 10  
         result_page = paginator.paginate_queryset(products, request)
         
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        serializer = ProductSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
     
 
