@@ -1,12 +1,8 @@
 from django.contrib import admin
-# from django.contrib.auth.models import Group
-# from .models import User
+from .models import Product
 
-# # მოძებნე მომხმარებელი
-# user = User.objects.get(username='benz1')
-
-# # მოძებნე Sellers ჯგუფი
-# sellers_group = Group.objects.get(name='Sellers')
-
-# # დაამატე ჯგუფში
-# user.groups.add(sellers_group)
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['name', 'price', 'stock', 'weight', 'length', 'width', 'height']
+    
+    search_fields = ['name']

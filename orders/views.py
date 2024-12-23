@@ -7,7 +7,7 @@ from app.models import Product, Sku, Productparams
 from .serializers import CartSerializer
 from rest_framework.permissions import IsAuthenticated
 from .serializers import CartItemSerializer, OrderSerializer
-from shipping.models import Shipping
+
 
 
 
@@ -150,17 +150,11 @@ class CheckoutView(APIView):
                     "status": "error",
                     "message": "No items in cart"
                 }, status=400)
-            # shipping methods
-            shipping_method_id = request.data.get('shipping_method')
-            if not shipping_method_id:
-                shipping_method = Shipping.objects.get(id= shipping_method_id)
-                cart.shipping = shipping_method
-                cart.save()
-       
+            
+         
             total_amount = sum(item.quantity * item.sku.productid.price for item in cart_items)
 
-            if cart.shipping:
-                total_amount += cart.shipping.price
+           
 
             order = Order.objects.create(
                 user=request.user, 
@@ -186,8 +180,7 @@ class CheckoutView(APIView):
         
         except Cart.DoesNotExist:
             return Response({'status': 'error', 'message': 'Cart not found'}, status=404)
-        except Shipping.DoesNotExist:
-            return Response({'status': 'error','message': 'Invalid shipping method'}, status=400)
+        
         except Exception as e:
             return Response({'status': 'error', 'message': str(e)}, status=500)
                 

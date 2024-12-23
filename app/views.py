@@ -36,7 +36,7 @@ class SellerPermission(BasePermission):
 
 # Product Views
 class ProductCreateView(CreateAPIView):
-    permission_classes = [IsAuthenticated, SellerPermission]
+    permission_classes = [SellerPermission]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 

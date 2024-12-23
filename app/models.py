@@ -24,6 +24,13 @@ class Product(models.Model):
     brandid = models.ForeignKey(Brands, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    # New fields for shipping information
+    weight = models.DecimalField(max_digits=10, decimal_places=2, default=1, null=False, help_text="Weight in kg")
+    length = models.DecimalField(max_digits=10, decimal_places=2, default=5, null=False, help_text="Length in cm")
+    width = models.DecimalField(max_digits=10, decimal_places=2, default=5, null=False, help_text="Width in cm")
+    height = models.DecimalField(max_digits=10, decimal_places=2, default=5, null=False, help_text="Height in cm")
+
+
     def __str__(self):
         return self.name
 

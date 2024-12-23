@@ -2,13 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 from app.models import Product, Sku
 from django.conf import settings
-from shipping.models import Shipping
+
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
-    shipping_method = models.ForeignKey(Shipping, on_delete=models.CASCADE, default=1)
+
     
 
     def __str__(self):

@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'app',
     'django_filters',
     'orders',
-    'shipping',
+    
     ]
 
 # დამატებულები
