@@ -14,11 +14,29 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny
 from django.db.models import Q
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, BasePermission
+
+
+# class AdminOrSellerPermission(BasePermission):
+#     def has_permission(self, request, view):
+#         # თუ მომხმარებელი არ არის ავტორიზებული
+#         if not request.user.is_authenticated:
+#             return False
+
+#         # თუ მომხმარებელი არაა superuser და არაა ჯგუფში 'Sellers'
+#         if request.user.is_superuser or request.user.groups.filter(name='sellers').exists():
+#             return True
+#         return False
+
+class SellerPermission(BasePermission):
+    def has_permission(self, request, view):
+        # მომხმარებელი უნდა იყოს ავტორიზებული და 'Sellers' ჯგუფის წევრი
+        return request.user.is_authenticated and request.user.groups.filter(name='Sellers').exists()
+        
 
 # Product Views
 class ProductCreateView(CreateAPIView):
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated, SellerPermission]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
