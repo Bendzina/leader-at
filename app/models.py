@@ -1,5 +1,16 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+
+class Store(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=200)
+    city = models.CharField(max_length=50)
+    country = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
 
 class Brands(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -22,7 +33,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField(null=False)
     brandid = models.ForeignKey(Brands, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    
 
     # New fields for shipping information
     weight = models.DecimalField(max_digits=10, decimal_places=2, default=1, null=False, help_text="Weight in kg")
@@ -30,7 +41,9 @@ class Product(models.Model):
     width = models.DecimalField(max_digits=10, decimal_places=2, default=5, null=False, help_text="Width in cm")
     height = models.DecimalField(max_digits=10, decimal_places=2, default=5, null=False, help_text="Height in cm")
 
-
+    storeid = models.ForeignKey(Store, on_delete=models.CASCADE, null=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.name
 
@@ -61,13 +74,6 @@ class Categoryparams(models.Model):
     def __str__(self):
         return self.key
     
-# seller user
-# class CustomUser(AbstractUser):
-#     is_seller = models.BooleanField(default=False)
-
-#     def __str__(self):
-#         return self.username
-
 
 
 

@@ -17,22 +17,20 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAdminUser, BasePermission
 
 
-# class AdminOrSellerPermission(BasePermission):
-#     def has_permission(self, request, view):
-#         # თუ მომხმარებელი არ არის ავტორიზებული
-#         if not request.user.is_authenticated:
-#             return False
 
-#         # თუ მომხმარებელი არაა superuser და არაა ჯგუფში 'Sellers'
-#         if request.user.is_superuser or request.user.groups.filter(name='sellers').exists():
-#             return True
-#         return False
+# class SellerPermission(BasePermission):
+#     def has_permission(self, request, view):
+#         # მომხმარებელი უნდა იყოს ავტორიზებული და 'Sellers' ჯგუფის წევრი
+#         return request.user.is_authenticated and request.user.groups.filter(name='Sellers').exists()
 
 class SellerPermission(BasePermission):
     def has_permission(self, request, view):
-        # მომხმარებელი უნდა იყოს ავტორიზებული და 'Sellers' ჯგუფის წევრი
-        return request.user.is_authenticated and request.user.groups.filter(name='Sellers').exists()
+        is_authenticated = request.user.is_authenticated
+        in_sellers_group = request.user.groups.filter(name='Sellers').exists()
+        print(f"Authenticated: {is_authenticated}, In Sellers Group: {in_sellers_group}")
+        return is_authenticated and in_sellers_group
         
+
 
 # Product Views
 class ProductCreateView(CreateAPIView):

@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'app',
     'django_filters',
     'orders',
-    
+
     ]
 
 # დამატებულები
@@ -67,7 +67,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework_simplejwt.authentication.JWTAuthentication',)
