@@ -24,12 +24,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseurl}}/app/categories-api/",
+							"raw": "{{baseurl}}/categories-api/",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"app",
 								"categories-api",
 								""
 							]
@@ -43,16 +42,31 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseurl}}/app/categories-api/",
+							"raw": "{{baseurl}}/categories-api/",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"app",
 								"categories-api",
 								""
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "filter",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
@@ -67,12 +81,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseurl}}/app/products-api/",
+							"raw": "{{baseurl}}/products-api/",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"app",
 								"products-api",
 								""
 							]
@@ -87,7 +100,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Galaxy S\",\n    \"price\": 1000,\n    \"catid\": 2, \n    \"stock\": 4, \n    \"brand\": \"Samsung\"  \n}\n",
+							"raw": "{\n        \"name\": \"test2\",\n        \"price\": \"200.00\",\n        \"stock\": 4,\n        \"catid\": 4,\n        \"brandid\": \"2\"\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -95,12 +108,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseurl}}/app/products-api/",
+							"raw": "{{baseurl}}/products-api/",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"app",
 								"products-api",
 								""
 							]
@@ -119,13 +131,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseurl}}/app/productparams-api",
+							"raw": "{{baseurl}}/productparams-api/",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"app",
-								"productparams-api"
+								"productparams-api",
+								""
 							]
 						}
 					},
@@ -146,13 +158,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseurl}}/app/productparams-api",
+							"raw": "{{baseurl}}/productparams-api/",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"app",
-								"productparams-api"
+								"productparams-api",
+								""
 							]
 						}
 					},
@@ -169,13 +181,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseurl}}/app/categoryparams-api",
+							"raw": "{{baseurl}}/categoryparams/1/",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"app",
-								"categoryparams-api"
+								"categoryparams",
+								"1",
+								""
 							]
 						}
 					},
@@ -196,13 +209,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseurl}}/app/categoryparams-api",
+							"raw": "{{baseurl}}/categoryparams-api/",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"app",
-								"categoryparams-api"
+								"categoryparams-api",
+								""
 							]
 						}
 					},
@@ -219,12 +232,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseurl}}/app/brands-api/",
+							"raw": "{{baseurl}}/brands-api/",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"app",
 								"brands-api",
 								""
 							]
@@ -247,12 +259,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseurl}}/app/brands-api/",
+							"raw": "{{baseurl}}/brands-api/",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"app",
 								"brands-api",
 								""
 							]
@@ -261,8 +272,437 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"benz1\",\n    \"password\": \"lil\",\n    \"password2\": \"lil\",\n    \"email\": \"bendzina@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}registrations/",
+							"host": [
+								"{{baseurl}}registrations"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "seller log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"benz1\",\n    \"password\": \"lil\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/login/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\":\"1234leader\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/login/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczNTI4ODAyOCwiaWF0IjoxNzM0NjgzMjI4LCJqdGkiOiJkZWNiMTIwOTcxZjQ0ZWU1OTNlZjRiZDUwZDc1MjBlNiIsInVzZXJfaWQiOjJ9.WqFLNlKbtuCaJ14j-XhrZyTnkDOx67V0HXHRckQHB7o\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/logout/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user\",\n    \"password\": \"lil19\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/login/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user_seller\",\n    \"password\": \"vymwen-0pypmE-nybwog\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/login/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sku",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/skus-api/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"skus-api",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productid\": 4\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/skus-api/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"skus-api",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "adding cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl2}}/cart/add/2/",
+							"host": [
+								"{{baseurl2}}"
+							],
+							"path": [
+								"cart",
+								"add",
+								"2",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "order view",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl2}}/orders/cart/",
+							"host": [
+								"{{baseurl2}}"
+							],
+							"path": [
+								"orders",
+								"cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl2}}/cart/delete/4/",
+							"host": [
+								"{{baseurl2}}"
+							],
+							"path": [
+								"cart",
+								"delete",
+								"4",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl2}}/cart/update/1/",
+							"host": [
+								"{{baseurl2}}"
+							],
+							"path": [
+								"cart",
+								"update",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "checkout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl2}}/cart/checkout/",
+							"host": [
+								"{{baseurl2}}"
+							],
+							"path": [
+								"cart",
+								"checkout",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "search",
+			"item": [
+				{
+					"name": "product search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/products/search/?name=iphone&param_key=color&param_value=red",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"products",
+								"search",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "iphone"
+								},
+								{
+									"key": "param_key",
+									"value": "color"
+								},
+								{
+									"key": "param_value",
+									"value": "red"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "paginator",
+			"item": [
+				{
+					"name": "get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/products/?page=2",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"products",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "shipping",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM1MDMyNjg5LCJpYXQiOjE3MzUwMjk2ODksImp0aSI6IjI4MzhkYWExNWI3NjRkNzI5MTNkYTIxZDJmZThkMjkxIiwidXNlcl9pZCI6NH0.IHnTrwiBPfsE7YbkiduIm-JEI2eQGMZOIzlnSC2JUdU",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
